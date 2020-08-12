@@ -14,24 +14,24 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#define BUFF_SIZE 32
+#define BUFF_SIZE 5
 
 int		get_next_line(const int fd, char **line)
 {
 	static char		buf[BUFF_SIZE + 1];
 	int			ret;
-	static int	i = 0;
+	int	i = 0;
 
 //	i = 0;
 //	printf("%s %d\n", "i =", i);
 	
 	ret = read(fd, buf, BUFF_SIZE);
+	printf("%s%s\n", "buf= ", buf);
 	while (i < BUFF_SIZE &&  buf[i] != '\n')
 	{	
 		i++;
 	}
 	
-//	printf("%s%c\n", "buf[i]=", buf[i]);
 	if (buf[i] == '\n')
 	{
 		buf[i] = '\0';	
@@ -51,19 +51,18 @@ int		main()
 	int		i;
 	static int		rows;
 
+	rows = 10;
 	i = 0;
-	rows = 0;
-	fd = open("dracula.txt", O_RDONLY);
 
-//	printf("%s\n", ret);
-	while (rows < 10)
+	fd = open("dracula.txt", O_RDONLY);
+	while (i < rows)
 	{
 		if(get_next_line(fd, &ret) == 1)
 		{
-			rows++;
-		}	
-			printf("%s%s\n", "ret = ", ret);
+			i++;
+			printf("%s\n", ret);
 			free(ret);
+		}	
 	}
 		close(fd);
 
